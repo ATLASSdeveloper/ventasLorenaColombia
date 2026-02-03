@@ -49,8 +49,8 @@ const dataSelects = {
 function normalizarTexto(texto) {
     return texto
         .toString()
-        .normalize("NFD")                    // separa acentos
-        .replace(/[\u0300-\u036f]/g, "")     // elimina acentos
+        .normalize("NFD")
+        .replace(/([^\u00f1\u00d1])[\u0300-\u036f]/g, "$1") // mantiene ñ/Ñ
         .toUpperCase()
         .trim();
 }
@@ -169,3 +169,4 @@ async function enviar() {
     btnEnviar.disabled = false;
     btnEnviar.textContent = "GUARDAR VENTA";
 }
+
