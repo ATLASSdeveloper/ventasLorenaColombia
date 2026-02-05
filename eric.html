@@ -55,11 +55,11 @@
         </div>
         <div class="field">
           <label>Valor FEE</label>
-          <input id="fee" type="number" required min="0" step="0.01">
+          <input id="fee" type="number" min="0" step="0.01" required>
         </div>
       </div>
 
-      <!-- NUEVO COMBOBOX -->
+      <!-- FUENTE -->
       <div class="row">
         <div class="field">
           <label>Fuente de prospección</label>
@@ -80,6 +80,30 @@
         </div>
       </div>
 
+      <!-- EXTRA RED SOCIAL -->
+      <div class="row" id="extraRedSocial" style="display:none;">
+        <div class="field">
+          <label>Red social</label>
+          <select id="redSocial">
+            <option value="">Seleccione</option>
+            <option>Facebook</option>
+            <option>Instagram</option>
+            <option>TikTok</option>
+            <option>WhatsApp</option>
+            <option>Otra</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- EXTRA REFERIDO -->
+      <div class="row" id="extraReferido" style="display:none;">
+        <div class="field">
+          <label>Nombre del referido</label>
+          <input id="nombreReferido">
+        </div>
+      </div>
+
+      <!-- TIPO / CATEGORIA -->
       <div class="row">
         <div class="field">
           <label>Tipo</label>
@@ -99,10 +123,10 @@
       <div class="field full">
         <label>Especificaciones</label>
         <select id="especificaciones" multiple disabled></select>
-        <small>Ctrl (o Cmd) + click para seleccionar múltiples opciones</small>
-        <small>Ctrl (o Cmd) + click para quitar selección</small>
       </div>
-
+        <small>Ctrl (o Cmd) + click para seleccionar múltiples opciones</small>
+        <br>
+        <small>Ctrl (o Cmd) + click para quitar selección</small>
       <button type="submit" id="btnEnviar">Guardar venta</button>
 
     </form>
