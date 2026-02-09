@@ -6,16 +6,22 @@ const btnEnviar = document.getElementById("btnEnviar");
 
 const fuente = document.getElementById("fuente");
 const extraRedSocial = document.getElementById("extraRedSocial");
+const extraSubcategoria = document.getElementById("extraSubcategoria");
 const extraReferido = document.getElementById("extraReferido");
+const extraEspecificaciones = document.getElementById("extraEspecificaciones");
 const redSocial = document.getElementById("redSocial");
+const subcategoria = document.getElementById("subcategoria");
 const nombreReferido = document.getElementById("nombreReferido");
+const mesGestion = document.getElementById("mesGestion");
+const mesVenta = document.getElementById("mesVenta");
+const estado = document.getElementById("estado");
+
 
 // ================== DATA ==================
 const dataSelects = {
     "clientes antiguos": {
         categorias: [
-            "Pólizas Comerciales - Comerciales",
-            "Pólizas Comerciales - Auto Comerciales",
+            "Pólizas Comerciales",
             "Pólizas Auto (Cotizando & Tomando PAGO)",
             "Pólizas Arrendamiento"
         ],
@@ -28,8 +34,7 @@ const dataSelects = {
     },
     "clientes nuevos": {
         categorias: [
-            "Pólizas Comerciales - Comerciales",
-            "Pólizas Comerciales - Auto Comerciales",
+            "Pólizas Comerciales",
             "Pólizas Auto (Cotizando & Tomando PAGO)"
         ],
         especificaciones: [
@@ -54,12 +59,14 @@ const dataSelects = {
 // ================== NORMALIZADOR ==================
 function normalizarTexto(texto) {
     return texto
-        .toString()
-        .normalize("NFD")
-        .replace(/([^\u00f1\u00d1])[\u0300-\u036f]/g, "$1")
-        .toUpperCase()
-        .trim();
+    .replace(/[áÁ]/g, "a")
+    .replace(/[éÉ]/g, "e")
+    .replace(/[íÍ]/g, "i")
+    .replace(/[óÓ]/g, "o")
+    .replace(/[úÚ]/g, "u")
+    .toUpperCase();
 }
+
 
 // ================== SELECTS ==================
 function cargarSelect(select, opciones) {
@@ -88,6 +95,9 @@ tipo.addEventListener("change", () => {
     especificaciones.innerHTML = "";
     categoria.disabled = true;
     especificaciones.disabled = true;
+    extraSubcategoria.style.display = "none";
+    subcategoria.selectedIndex = 0;
+    extraEspecificaciones.style.display = "none";
 
     if (!tipo.value) return;
 
@@ -110,11 +120,24 @@ fuente.addEventListener("change", () => {
     }
 });
 
+categoria.addEventListener("change", () => {
+    extraSubcategoria.style.display = "none";
+    subcategoria.selectedIndex = 0;
+    extraEspecificaciones.style.display = "none";
+
+    if (categoria.value === "Pólizas Comerciales") {
+        extraSubcategoria.style.display = "flex";
+    }
+    if (categoria.value === "Pólizas Comerciales" || categoria.value === "Renovación Base Asignada - CRM" || categoria.value === "Renovación Cliente Propio") {
+        extraEspecificaciones.style.display = "flex";
+    }
+});
+
 // ================== ENVÍO ==================
 async function enviar() {
 
     if (
-        !nombre.value.trim() ||
+        !cliente.value.trim() ||
         !poliza.value.trim() ||
         !fee.value ||
         !tipo.value ||
@@ -132,13 +155,16 @@ async function enviar() {
 
     data.append("sheet", sheet.value);
     data.append("vendedor", vendedor.value);
-    data.append("nombre", normalizarTexto(nombre.value));
+    data.append("cliente", normalizarTexto(cliente.value));
     data.append("poliza", normalizarTexto(poliza.value));
     data.append("pago", normalizarTexto(pago.value));
     data.append("fee", fee.value);
     data.append("tipo", normalizarTexto(tipo.value));
     data.append("categoria", normalizarTexto(categoria.value));
     data.append("fuente", normalizarTexto(fuente.value));
+    data.append("mes_G", normalizarTexto(mesGestion.value));
+    data.append("mes_V", normalizarTexto(mesVenta.value));
+    data.append("estado", normalizarTexto(estado.value));
 
     if (fuente.value === "Redes Sociales") {
         if (!redSocial.value) {
@@ -166,7 +192,17 @@ async function enviar() {
 
     data.append("especificaciones", specs);
 
-    await fetch("https://script.google.com/macros/s/AKfycbx7fGn5Ug3ayn69DMZ_8B7r3bJZqlbdfLQ3e-ZM9xZERwymKqQn7KMuKHSLJV16/exec", {
+    if (categoria.value === "Pólizas Comerciales") {
+        if (!subcategoria.value) {
+            alert("SELECCIONE LA SUBCATEGORÍA");
+            btnEnviar.disabled = false;
+            btnEnviar.textContent = "GUARDAR VENTA";
+            return;
+        }
+        data.append("subcategoria", normalizarTexto(subcategoria.value));
+    }
+
+    await fetch("https://script.google.com/macros/s/AKfycbwBRYLgJz2Me9Gp1Tt7GEHoHS5_o9yxQR2jVhmcQeKFZwIQHkeMj2gRokqvRP6hjXaT/exec", {
         method: "POST",
         mode: "no-cors",
         body: data
@@ -179,15 +215,18 @@ async function enviar() {
 }
 
 function limpiarFormulario() {
-    document.getElementById("nombre").value = "";
+    document.getElementById("cliente").value = "";
     document.getElementById("poliza").value = "";
     document.getElementById("fee").value = "";
     document.getElementById("pago").selectedIndex = 0;
     document.getElementById("fuente").selectedIndex = 0;
-
+    document.getElementById("mesGestion").selectedIndex = 0;
+    document.getElementById("mesVenta").selectedIndex = 0;
+    document.getElementById("estado").selectedIndex = 0;
     document.getElementById("tipo").selectedIndex = 0;
     categoria.innerHTML = "";
     categoria.disabled = true;
+    
 
     especificaciones.innerHTML = "";
     especificaciones.disabled = true;
@@ -195,6 +234,8 @@ function limpiarFormulario() {
     // 🔽 limpiar dinámicos
     redSocial.selectedIndex = 0;
     nombreReferido.value = "";
+    subcategoria.selectedIndex = 0;
     extraRedSocial.style.display = "none";
     extraReferido.style.display = "none";
+    extraSubcategoria.style.display = "none";
 }

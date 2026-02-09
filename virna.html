@@ -1,138 +1,207 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Registro de Póliza</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Registro de Póliza</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
 
-<div class="contact-container">
+  <div class="contact-container">
 
-  <!-- PANEL IZQUIERDO -->
-  <div class="contact-info">
-    <h2><i class="fa-solid fa-clipboard-check"></i> Ventas</h2>
-    <p class="subtitle">Registro de pólizas</p>
+    <!-- PANEL IZQUIERDO -->
+    <div class="contact-info">
+      <h2><i class="fa-solid fa-clipboard-check"></i> Ventas</h2>
+      <p class="subtitle">Registro de pólizas</p>
 
-    <div class="vendedor">VIRNA</div>
+      <div class="vendedor">VIRNA</div>
 
-    <div class="info-item"><i class="fa-solid fa-bullhorn"></i> Campañas</div>
-    <div class="info-item"><i class="fa-solid fa-user-plus"></i> Clientes nuevos</div>
-    <div class="info-item"><i class="fa-solid fa-rotate"></i> Renovaciones</div>
+      <div class="info-item"><i class="fa-solid fa-bullhorn"></i> Campañas</div>
+      <div class="info-item"><i class="fa-solid fa-user-plus"></i> Clientes nuevos</div>
+      <div class="info-item"><i class="fa-solid fa-rotate"></i> Renovaciones</div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="contact-form">
+      <form onsubmit="event.preventDefault(); enviar();">
+
+        <!-- DATOS FIJOS -->
+        <input type="hidden" id="vendedor" value="VIRNA">
+        <input type="hidden" id="sheet" value="CLIENTES VIRNA 2026">
+
+        <div class="row">
+          <div class="field">
+            <label>Nombre del cliente</label>
+            <input id="cliente" required>
+          </div>
+          <div class="field">
+            <label>Número de póliza</label>
+            <input id="poliza" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Medio de pago</label>
+            <select id="pago" required>
+              <option value="">Seleccione</option>
+              <option>Débito</option>
+              <option>Crédito</option>
+              <option>Zelle Normal</option>
+              <option>Full Zelle</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Valor FEE</label>
+            <input id="fee" type="number" min="0" step="0.01" required>
+          </div>
+          <div class="field">
+            <label>Estado</label>
+            <select id="estado" required>
+              <option value="">Seleccione</option>
+              <option>North Carolina</option>
+              <option>South Carolina</option>
+              <option>Tenesse</option>
+              <option>Georgia</option>
+              <option>Florida</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Mes de gestión</label>
+            <select id="mesGestion" required>
+              <option value="">Seleccione</option>
+              <option>Enero</option>
+              <option>Febrero</option>
+              <option>Marzo</option>
+              <option>Abril</option>
+              <option>Mayo</option>
+              <option>Junio</option>
+              <option>Julio</option>
+              <option>Agosto</option>
+              <option>Septiembre</option>
+              <option>Octubre</option>
+              <option>Noviembre</option>
+              <option>Diciembre</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Mes de venta</label>
+            <select id="mesVenta" required>
+              <option value="">Seleccione</option>
+              <option>Enero</option>
+              <option>Febrero</option>
+              <option>Marzo</option>
+              <option>Abril</option>
+              <option>Mayo</option>
+              <option>Junio</option>
+              <option>Julio</option>
+              <option>Agosto</option>
+              <option>Septiembre</option>
+              <option>Octubre</option>
+              <option>Noviembre</option>
+              <option>Diciembre</option>
+            </select>
+          </div>
+        </div>
+
+
+        <!-- FUENTE -->
+        <div class="row">
+          <div class="field">
+            <label>Fuente de prospección</label>
+            <select id="fuente" required>
+              <option value="">Seleccione</option>
+              <option>Cross Selling - Cliente Amerispan</option>
+              <option>Cross Selling - Cliente Afiliado</option>
+              <option>Cross Selling - Cliente Propio</option>
+              <option>Referido - Compartido Afiliado</option>
+              <option>Referido - Cliente Amerispan</option>
+              <option>Referido - Cliente Inactivo</option>
+              <option>Referido Cliente Propio</option>
+              <option>Call Center Amerispan</option>
+              <option>Redes Sociales</option>
+              <option>Base NCCI</option>
+              <option>Inactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- EXTRA RED SOCIAL -->
+        <div class="row" id="extraRedSocial" style="display:none;">
+          <div class="field">
+            <label>Red social</label>
+            <select id="redSocial">
+              <option value="">Seleccione</option>
+              <option>Facebook</option>
+              <option>Instagram</option>
+              <option>Correo</option>
+              <option>WhatsApp</option>
+              <option>Otra</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- EXTRA REFERIDO -->
+        <div class="row" id="extraReferido" style="display:none;">
+          <div class="field">
+            <label>Nombre del referido</label>
+            <input id="nombreReferido">
+          </div>
+        </div>
+
+        <!-- TIPO / CATEGORIA -->
+        <div class="row">
+          <div class="field">
+            <label>Tipo</label>
+            <select id="tipo">
+              <option value="">Seleccione</option>
+              <option value="clientes antiguos">Clientes Antiguos</option>
+              <option value="clientes nuevos">Clientes Nuevos</option>
+              <option value="renovaciones">Renovaciones</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Categoría</label>
+            <select id="categoria" disabled></select>
+          </div>
+          <div class="field" id="extraSubcategoria" style="display:none;">
+            <label>Subcategoría</label>
+            <select id="subcategoria">
+              <option value="">Seleccione</option>
+              <option>WC</option>
+              <option>GL</option>
+              <option>BOP</option>
+              <option>Umbrella</option>
+              <option>Auto Comercial</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div id="extraEspecificaciones" class="field full" style="display:none;">
+            <label>Especificaciones</label>
+            <select id="especificaciones" multiple disabled></select>
+
+            <small>Ctrl (o Cmd) + click para seleccionar múltiples opciones</small>
+            <small>Ctrl (o Cmd) + click para quitar selección</small>
+          </div>
+        </div>
+
+        <button type="submit" id="btnEnviar">Guardar venta</button>
+
+      </form>
+    </div>
   </div>
 
-  <!-- FORMULARIO -->
-  <div class="contact-form">
-    <form onsubmit="event.preventDefault(); enviar();">
-
-      <!-- DATOS FIJOS -->
-      <input type="hidden" id="vendedor" value="VIRNA">
-      <input type="hidden" id="sheet" value="CLIENTES VIRNA 2026">
-
-      <div class="row">
-        <div class="field">
-          <label>Nombre del cliente</label>
-          <input id="nombre" required>
-        </div>
-        <div class="field">
-          <label>Número de póliza</label>
-          <input id="poliza" required>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="field">
-          <label>Medio de pago</label>
-          <select id="pago" required>
-            <option value="">Seleccione</option>
-            <option>Débito</option>
-            <option>Crédito</option>
-            <option>Zelle Normal</option>
-            <option>Full Zelle</option>
-            <option>Otro</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Valor FEE</label>
-          <input id="fee" type="number" min="0" step="0.01" required>
-        </div>
-      </div>
-
-      <!-- FUENTE -->
-      <div class="row">
-        <div class="field">
-          <label>Fuente de prospección</label>
-          <select id="fuente" required>
-            <option value="">Seleccione</option>
-            <option>Cross Selling - Cliente Amerispan</option>
-            <option>Cross Selling - Cliente Afiliado</option>
-            <option>Cross Selling - Cliente Propio</option>
-            <option>Referido - Compartido Afiliado</option>
-            <option>Referido - Cliente Amerispan</option>
-            <option>Referido - Cliente Inactivo</option>
-            <option>Referido Cliente Propio</option>
-            <option>Call Center Amerispan</option>
-            <option>Redes Sociales</option>
-            <option>Base NCCI</option>
-            <option>Inactivo</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- EXTRA RED SOCIAL -->
-      <div class="row" id="extraRedSocial" style="display:none;">
-        <div class="field">
-          <label>Red social</label>
-          <select id="redSocial">
-            <option value="">Seleccione</option>
-            <option>Facebook</option>
-            <option>Instagram</option>
-            <option>TikTok</option>
-            <option>WhatsApp</option>
-            <option>Otra</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- EXTRA REFERIDO -->
-      <div class="row" id="extraReferido" style="display:none;">
-        <div class="field">
-          <label>Nombre del referido</label>
-          <input id="nombreReferido">
-        </div>
-      </div>
-
-      <!-- TIPO / CATEGORIA -->
-      <div class="row">
-        <div class="field">
-          <label>Tipo</label>
-          <select id="tipo">
-            <option value="">Seleccione</option>
-            <option value="clientes antiguos">Clientes Antiguos</option>
-            <option value="clientes nuevos">Clientes Nuevos</option>
-            <option value="renovaciones">Renovaciones</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Categoría</label>
-          <select id="categoria" disabled></select>
-        </div>
-      </div>
-
-      <div class="field full">
-        <label>Especificaciones</label>
-        <select id="especificaciones" multiple disabled></select>
-      </div>
-        <small>Ctrl (o Cmd) + click para seleccionar múltiples opciones</small>
-        <br>
-        <small>Ctrl (o Cmd) + click para quitar selección</small>
-      <button type="submit" id="btnEnviar">Guardar venta</button>
-
-    </form>
-  </div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
