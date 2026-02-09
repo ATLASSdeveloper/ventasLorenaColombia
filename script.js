@@ -238,4 +238,5 @@ function limpiarFormulario() {
     extraRedSocial.style.display = "none";
     extraReferido.style.display = "none";
     extraSubcategoria.style.display = "none";
+    extraEspecificaciones.style.display = "none";
 }
