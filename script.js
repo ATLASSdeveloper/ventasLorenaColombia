@@ -35,7 +35,8 @@ const dataSelects = {
     "clientes nuevos": {
         categorias: [
             "Pólizas Comerciales",
-            "Pólizas Auto (Cotizando & Tomando PAGO)"
+            "Pólizas Auto (Cotizando & Tomando PAGO)",
+            "Pólizas Arrendamiento"
         ],
         especificaciones: [
             "Pólizas Nuevas Greenville",
