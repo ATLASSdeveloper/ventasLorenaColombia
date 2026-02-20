@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Comparador Profesional de Pólizas</title>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<link rel="stylesheet" href="reporte.css">
+</head>
+<body>
+
+<div class="contact-container">
+
+  <div class="contact-info">
+    <h2>Comparador de polizas</h2>
+    <div class="subtitle">Automatización amerispan</div>
+    <div class="vendedor">Lorena</div>
+    <div class="info-item">✔ Rápido</div>
+    <div class="info-item">✔ Seguro</div>
+    <div class="info-item">✔ Confiable</div>
+  </div>
+
+  <div class="contact-form">
+
+    <div class="row">
+      <div class="field">
+        <label>Archivo del CRM</label>
+        <div class="drop-zone" id="dropA">Arrastra archivo aquí</div>
+      </div>
+
+      <div class="field">
+        <label>Archivo del Google Drive</label>
+        <div class="drop-zone" id="dropB">Arrastra archivo aquí</div>
+      </div>
+    </div>
+
+    <button onclick="comparar()">Comparar Archivos</button>
+
+    <div class="tabs">
+      <div class="tab-buttons">
+        <div class="tab-btn active" onclick="showTab(0)">Solo existen en el CRM</div>
+        <div class="tab-btn" onclick="showTab(1)">Solo existen en el Google Drive</div>
+        <div class="tab-btn" onclick="showTab(2)">Duplicados</div>
+      </div>
+
+      <div class="tab-content active" id="tab0"></div>
+      <div class="tab-content" id="tab1"></div>
+      <div class="tab-content" id="tab2"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="reporte.js">
+</script>
+
+</body>
+</html>

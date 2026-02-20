@@ -110,3 +110,78 @@ button {
 button:hover {
   background: #4f3fd9;
 }
+
+
+
+.drop-zone {
+  border: 2px dashed #6a5cff;
+  padding: 25px;
+  text-align: center;
+  border-radius: 8px;
+  background: #fafbff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.drop-zone.dragover {
+  background: #e6e9ff;
+}
+
+.tabs {
+  margin-top: 30px;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  background: #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 600;
+}
+
+.tab-btn.active {
+  background: #6a5cff;
+  color: #fff;
+}
+
+.tab-content {
+  display: none;
+  margin-top: 20px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.result-box {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 13px;
+  border: 1px solid #ddd;
+}
+
+.counter {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #6a5cff;
+}
+
+.export-btn {
+  margin-top: 10px;
+  background: #28a745;
+}
+
+.export-btn:hover {
+  background: #1f7f36;
+}
+

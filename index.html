@@ -2,25 +2,32 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Seleccionar vendedor</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Acceso</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
-<div class="contact-container">
-  <div class="contact-info">
-    <h2>Bienvenido</h2>
-    <p class="subtitle">Selecciona quién eres</p>
-    <div class="vendedor">Acceso</div>
-  </div>
+  <div class="container">
+    <h1>Bienvenido</h1>
+    <p class="subtitle">Selecciona tu acceso</p>
 
-  <div class="contact-form">
-    <button onclick="location.href='virna.html'">Soy Virna</button>
-    <button onclick="location.href='eric.html'" style="margin-top:15px;">
-      Soy Eric
+    <button class="btn btn-primary" onclick="location.href='virna.html'">
+      👩 Soy Virna
     </button>
+
+    <button class="btn btn-secondary" onclick="location.href='eric.html'">
+      👨 Soy Eric
+    </button>
+
+    <div class="footer">
+      Sistema de Gestión • 2026
+    </div>
   </div>
-</div>
 
 </body>
 </html>
