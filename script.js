@@ -12,6 +12,8 @@ const extraEspecificaciones = document.getElementById("extraEspecificaciones");
 const redSocial = document.getElementById("redSocial");
 const subcategoria = document.getElementById("subcategoria");
 const nombreReferido = document.getElementById("nombreReferido");
+const telefonoReferido = document.getElementById("telefonoReferido");
+const medioReferido = document.getElementById("medioReferido");
 const mesGestion = document.getElementById("mesGestion");
 const mesVenta = document.getElementById("mesVenta");
 const estado = document.getElementById("estado");
@@ -60,12 +62,12 @@ const dataSelects = {
 // ================== NORMALIZADOR ==================
 function normalizarTexto(texto) {
     return texto
-    .replace(/[áÁ]/g, "a")
-    .replace(/[éÉ]/g, "e")
-    .replace(/[íÍ]/g, "i")
-    .replace(/[óÓ]/g, "o")
-    .replace(/[úÚ]/g, "u")
-    .toUpperCase();
+        .replace(/[áÁ]/g, "a")
+        .replace(/[éÉ]/g, "e")
+        .replace(/[íÍ]/g, "i")
+        .replace(/[óÓ]/g, "o")
+        .replace(/[úÚ]/g, "u")
+        .toUpperCase();
 }
 
 
@@ -178,15 +180,41 @@ async function enviar() {
     }
 
     if (fuente.value === "Referido Cliente Propio") {
-        if (!nombreReferido.value.trim()) {
+
+        const nombre = nombreReferido.value.trim().replace(/\s+/g, " ");
+
+        if (!/^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]{3,}$/.test(nombre)) {
             alert("INGRESE EL NOMBRE DEL REFERIDO");
             btnEnviar.disabled = false;
             btnEnviar.textContent = "GUARDAR VENTA";
             return;
         }
-        data.append("detalle_fuente", normalizarTexto(nombreReferido.value));
-    }
 
+        const telefono = telefonoReferido.value.trim();
+
+        if (!/^[0-9+\s]{7,20}$/.test(telefono) || telefono.replace(/\D/g, "").length < 7) {
+            alert("INGRESE UN TELÉFONO VÁLIDO (NÚMEROS, ESPACIOS O +)");
+            btnEnviar.disabled = false;
+            btnEnviar.textContent = "GUARDAR VENTA";
+            return;
+        }
+
+        if (!medioReferido.value) {
+            alert("SELECCIONE EL MEDIO DE CONTACTO");
+            btnEnviar.disabled = false;
+            btnEnviar.textContent = "GUARDAR VENTA";
+            return;
+        }
+
+        data.append(
+            "detalle_fuente",
+            [
+                normalizarTexto(nombre),
+                telefono,
+                medioReferido.value
+            ].join("|")
+        );
+    }
     const specs = Array.from(especificaciones.selectedOptions)
         .map(o => normalizarTexto(o.value))
         .join(", ");
@@ -227,7 +255,7 @@ function limpiarFormulario() {
     document.getElementById("tipo").selectedIndex = 0;
     categoria.innerHTML = "";
     categoria.disabled = true;
-    
+
 
     especificaciones.innerHTML = "";
     especificaciones.disabled = true;
@@ -235,6 +263,8 @@ function limpiarFormulario() {
     // 🔽 limpiar dinámicos
     redSocial.selectedIndex = 0;
     nombreReferido.value = "";
+    telefonoReferido.value = "";
+    medioReferido.selectedIndex = 0;
     subcategoria.selectedIndex = 0;
     extraRedSocial.style.display = "none";
     extraReferido.style.display = "none";
