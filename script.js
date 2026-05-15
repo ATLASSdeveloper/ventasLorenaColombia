@@ -8,8 +8,10 @@ const fuente = document.getElementById("fuente");
 const extraRedSocial = document.getElementById("extraRedSocial");
 const extraSubcategoria = document.getElementById("extraSubcategoria");
 const extraReferido = document.getElementById("extraReferido");
+const extraReferidoCompartido = document.getElementById("extraReferidoCompartido");
 const extraEspecificaciones = document.getElementById("extraEspecificaciones");
 const redSocial = document.getElementById("redSocial");
+const referidos = document.getElementById("referidos");
 const subcategoria = document.getElementById("subcategoria");
 const nombreReferido = document.getElementById("nombreReferido");
 const telefonoReferido = document.getElementById("telefonoReferido");
@@ -111,7 +113,9 @@ tipo.addEventListener("change", () => {
 fuente.addEventListener("change", () => {
     extraRedSocial.style.display = "none";
     extraReferido.style.display = "none";
+    extraReferidoCompartido.style.display = "none";
     redSocial.selectedIndex = 0;
+    referidos.selectedIndex = 0;
     nombreReferido.value = "";
 
     if (fuente.value === "Redes Sociales") {
@@ -120,6 +124,10 @@ fuente.addEventListener("change", () => {
 
     if (fuente.value === "Referido Cliente Propio") {
         extraReferido.style.display = "flex";
+    }
+
+    if (fuente.value === "Referido - Compartido Afiliado"){
+        extraReferidoCompartido.style.display = "flex"
     }
 });
 
@@ -215,6 +223,19 @@ async function enviar() {
             ].join("|")
         );
     }
+
+    if (fuente.value === "Referido - Compartido Afiliado"){
+        const referido = referidos.value.trim();
+
+        if (!referido) {
+            alert("SELECCIONE EL REFERIDO");
+            btnEnviar.disabled = false;
+            btnEnviar.textContent = "GUARDAR VENTA";
+            return;
+        }
+
+        data.append("referido", normalizarTexto(referido));
+    }
     const specs = Array.from(especificaciones.selectedOptions)
         .map(o => normalizarTexto(o.value))
         .join(", ");
@@ -262,11 +283,13 @@ function limpiarFormulario() {
 
     // 🔽 limpiar dinámicos
     redSocial.selectedIndex = 0;
+    referidos.selectedIndex = 0;
     nombreReferido.value = "";
     telefonoReferido.value = "";
     medioReferido.selectedIndex = 0;
     subcategoria.selectedIndex = 0;
     extraRedSocial.style.display = "none";
+    extraReferidoCompartido.style.display = "none";
     extraReferido.style.display = "none";
     extraSubcategoria.style.display = "none";
     extraEspecificaciones.style.display = "none";
