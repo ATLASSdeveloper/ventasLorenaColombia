@@ -252,7 +252,7 @@ async function enviar() {
         data.append("subcategoria", normalizarTexto(subcategoria.value));
     }
 
-    await fetch("https://script.google.com/macros/s/AKfycbwBRYLgJz2Me9Gp1Tt7GEHoHS5_o9yxQR2jVhmcQeKFZwIQHkeMj2gRokqvRP6hjXaT/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbxmTljpU8xT0zce9ouUVlh_U0vKWM_Ry-eeTofRDniCfAnFteNnD7705FiZPD8i-JsR/exec", {
         method: "POST",
         mode: "no-cors",
         body: data
