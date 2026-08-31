@@ -20,6 +20,10 @@ const mesGestion = document.getElementById("mesGestion");
 const mesVenta = document.getElementById("mesVenta");
 const estado = document.getElementById("estado");
 
+const extraDetalleCategoria = document.getElementById("extraDetalleCategoria");
+const detalleCategoria = document.getElementById("detalleCategoria");
+const modoRapido = document.getElementById("modoRapido");
+const camposFormulario = document.getElementById("camposFormulario");
 
 // ================== DATA ==================
 const dataSelects = {
@@ -59,6 +63,26 @@ const dataSelects = {
             "Renovación Cliente Superior - AÑO 10.000 USD"
         ]
     }
+};
+
+const detalleCategorias = {
+    "Pólizas Auto (Cotizando & Tomando PAGO)": [
+        "Progressive",
+        "Assurance",
+        "National General",
+        "Gainsco",
+        "Verve",
+        "Kemper"
+    ],
+
+    "Pólizas Comerciales": [
+        "Guard",
+        "Jencap",
+        "Birbek",
+        "Progressive",
+        "Assurance",
+        "National General"
+    ]
 };
 
 // ================== NORMALIZADOR ==================
@@ -126,34 +150,76 @@ fuente.addEventListener("change", () => {
         extraReferido.style.display = "flex";
     }
 
-    if (fuente.value === "Referido - Compartido Afiliado"){
+    if (fuente.value === "Referido - Compartido Afiliado") {
         extraReferidoCompartido.style.display = "flex"
     }
 });
 
 categoria.addEventListener("change", () => {
+
     extraSubcategoria.style.display = "none";
     subcategoria.selectedIndex = 0;
-    extraEspecificaciones.style.display = "none";
 
+    extraEspecificaciones.style.display = "none";
+    especificaciones.selectedIndex = 0;
+
+    extraDetalleCategoria.style.display = "none";
+
+    // LIMPIAR SELECT
+    detalleCategoria.innerHTML = `<option value="">Seleccione</option>`;
+    detalleCategoria.disabled = true;
+
+    // SUBCATEGORIA
     if (categoria.value === "Pólizas Comerciales") {
         extraSubcategoria.style.display = "flex";
     }
-    if (categoria.value === "Pólizas Comerciales" || categoria.value === "Renovación Base Asignada - CRM" || categoria.value === "Renovación Cliente Propio") {
+
+    // ESPECIFICACIONES
+    if (
+        categoria.value === "Pólizas Comerciales" ||
+        categoria.value === "Renovación Base Asignada - CRM" ||
+        categoria.value === "Renovación Cliente Propio"
+    ) {
         extraEspecificaciones.style.display = "flex";
     }
+
+    // DETALLE CATEGORIA
+    if (detalleCategorias[categoria.value]) {
+
+        extraDetalleCategoria.style.display = "flex";
+        detalleCategoria.disabled = false;
+
+        detalleCategorias[categoria.value].forEach(op => {
+
+            const option = document.createElement("option");
+
+            option.value = op;
+            option.textContent = op;
+
+            detalleCategoria.appendChild(option);
+        });
+    }
+});
+
+modoRapido.addEventListener("change", () => {
+
+    camposFormulario.style.display =
+        modoRapido.checked ? "none" : "block";
 });
 
 // ================== ENVÍO ==================
 async function enviar() {
 
     if (
-        !cliente.value.trim() ||
-        !poliza.value.trim() ||
-        !fee.value ||
-        !tipo.value ||
-        !categoria.value ||
-        !fuente.value
+        !modoRapido.checked &&
+        (
+            !cliente.value.trim() ||
+            !poliza.value.trim() ||
+            !fee.value ||
+            !tipo.value ||
+            !categoria.value ||
+            !fuente.value
+        )
     ) {
         alert("COMPLETA TODOS LOS CAMPOS OBLIGATORIOS");
         return;
@@ -177,7 +243,7 @@ async function enviar() {
     data.append("mes_V", normalizarTexto(mesVenta.value));
     data.append("estado", normalizarTexto(estado.value));
 
-    if (fuente.value === "Redes Sociales") {
+    if (!modoRapido.checked && fuente.value === "Redes Sociales") {
         if (!redSocial.value) {
             alert("SELECCIONE LA RED SOCIAL");
             btnEnviar.disabled = false;
@@ -187,7 +253,7 @@ async function enviar() {
         data.append("detalle_fuente", normalizarTexto(redSocial.value));
     }
 
-    if (fuente.value === "Referido Cliente Propio") {
+    if (!modoRapido.checked && fuente.value === "Referido Cliente Propio") {
 
         const nombre = nombreReferido.value.trim().replace(/\s+/g, " ");
 
@@ -224,7 +290,7 @@ async function enviar() {
         );
     }
 
-    if (fuente.value === "Referido - Compartido Afiliado"){
+    if (!modoRapido.checked && fuente.value === "Referido - Compartido Afiliado") {
         const referido = referidos.value.trim();
 
         if (!referido) {
@@ -242,7 +308,7 @@ async function enviar() {
 
     data.append("especificaciones", specs);
 
-    if (categoria.value === "Pólizas Comerciales") {
+    if (!modoRapido.checked && categoria.value === "Pólizas Comerciales") {
         if (!subcategoria.value) {
             alert("SELECCIONE LA SUBCATEGORÍA");
             btnEnviar.disabled = false;
@@ -293,4 +359,6 @@ function limpiarFormulario() {
     extraReferido.style.display = "none";
     extraSubcategoria.style.display = "none";
     extraEspecificaciones.style.display = "none";
+    extraDetalleCategoria.style.display = "none";
+    detalleCategoria.selectedIndex = 0;
 }

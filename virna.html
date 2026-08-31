@@ -31,196 +31,211 @@
         <!-- DATOS FIJOS -->
         <input type="hidden" id="vendedor" value="VIRNA">
         <input type="hidden" id="sheet" value="CLIENTES VIRNA 2026">
-
         <div class="row">
           <div class="field">
-            <label>Nombre del cliente</label>
-            <input id="cliente" required>
-          </div>
-          <div class="field">
-            <label>Número de póliza</label>
-            <input id="poliza" required>
+            <label>
+              <input type="checkbox" id="modoRapido">
+              Apertura Corporación
+            </label>
           </div>
         </div>
+        <div id="camposFormulario">
 
-        <div class="row">
-          <div class="field">
-            <label>Medio de pago</label>
-            <select id="pago" required>
-              <option value="">Seleccione</option>
-              <option>Débito</option>
-              <option>Crédito</option>
-              <option>Zelle Normal</option>
-              <option>Full Zelle</option>
-              <option>Otro</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Valor FEE</label>
-            <input id="fee" type="number" min="0" step="0.01" required>
-          </div>
-          <div class="field">
-            <label>Estado</label>
-            <select id="estado" required>
-              <option value="">Seleccione</option>
-              <option>North Carolina</option>
-              <option>South Carolina</option>
-              <option>Tenesse</option>
-              <option>Georgia</option>
-              <option>Florida</option>
-              <option>Otro</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label>Mes de gestión</label>
-            <select id="mesGestion" required>
-              <option value="">Seleccione</option>
-              <option>Enero</option>
-              <option>Febrero</option>
-              <option>Marzo</option>
-              <option>Abril</option>
-              <option>Mayo</option>
-              <option>Junio</option>
-              <option>Julio</option>
-              <option>Agosto</option>
-              <option>Septiembre</option>
-              <option>Octubre</option>
-              <option>Noviembre</option>
-              <option>Diciembre</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label>Mes de venta</label>
-            <select id="mesVenta" required>
-              <option value="">Seleccione</option>
-              <option>Enero</option>
-              <option>Febrero</option>
-              <option>Marzo</option>
-              <option>Abril</option>
-              <option>Mayo</option>
-              <option>Junio</option>
-              <option>Julio</option>
-              <option>Agosto</option>
-              <option>Septiembre</option>
-              <option>Octubre</option>
-              <option>Noviembre</option>
-              <option>Diciembre</option>
-            </select>
-          </div>
-        </div>
-
-
-        <!-- FUENTE -->
-        <div class="row">
-          <div class="field">
-            <label>Fuente de prospección</label>
-            <select id="fuente" required>
-              <option value="">Seleccione</option>
-              <option>Cross Selling - Cliente Amerispan</option>
-              <option>Cross Selling - Cliente Afiliado</option>
-              <option>Cross Selling - Cliente Propio</option>
-              <option>Referido - Compartido Afiliado</option>
-              <option>Referido - Cliente Amerispan</option>
-              <option>Referido - Cliente Inactivo</option>
-              <option>Referido Cliente Propio</option>
-              <option>Call Center Amerispan</option>
-              <option>Redes Sociales</option>
-              <option>Base NCCI</option>
-              <option>Inactivo</option>
-            </select>
-          </div>
-
-          <div class="row" id="extraReferidoCompartido" style="display:none;">
+          <div class="row">
             <div class="field">
-              <label>Referido</label>
-              <select id="referidos">
+              <label>Nombre del cliente</label>
+              <input id="cliente">
+            </div>
+            <div class="field">
+              <label>Número de póliza</label>
+              <input id="poliza">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label>Medio de pago</label>
+              <select id="pago">
                 <option value="">Seleccione</option>
-                <option>Sheila Alfaro</option>
+                <option>Débito</option>
+                <option>Crédito</option>
+                <option>Zelle Normal</option>
+                <option>Full Zelle</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Valor FEE</label>
+              <input id="fee" type="number" min="0" step="0.01">
+            </div>
+            <div class="field">
+              <label>Estado</label>
+              <select id="estado">
+                <option value="">Seleccione</option>
+                <option>North Carolina</option>
+                <option>South Carolina</option>
+                <option>Tenesse</option>
+                <option>Georgia</option>
+                <option>Florida</option>
                 <option>Otro</option>
               </select>
             </div>
           </div>
-        </div>
 
-        <!-- EXTRA RED SOCIAL -->
-        <div class="row" id="extraRedSocial" style="display:none;">
-          <div class="field">
-            <label>Red social</label>
-            <select id="redSocial">
-              <option value="">Seleccione</option>
-              <option>Facebook</option>
-              <option>Instagram</option>
-              <option>Correo</option>
-              <option>WhatsApp</option>
-              <option>Otra</option>
-            </select>
+          <div class="row">
+            <div class="field">
+              <label>Mes de gestión</label>
+              <select id="mesGestion">
+                <option value="">Seleccione</option>
+                <option>Enero</option>
+                <option>Febrero</option>
+                <option>Marzo</option>
+                <option>Abril</option>
+                <option>Mayo</option>
+                <option>Junio</option>
+                <option>Julio</option>
+                <option>Agosto</option>
+                <option>Septiembre</option>
+                <option>Octubre</option>
+                <option>Noviembre</option>
+                <option>Diciembre</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Mes de venta</label>
+              <select id="mesVenta">
+                <option value="">Seleccione</option>
+                <option>Enero</option>
+                <option>Febrero</option>
+                <option>Marzo</option>
+                <option>Abril</option>
+                <option>Mayo</option>
+                <option>Junio</option>
+                <option>Julio</option>
+                <option>Agosto</option>
+                <option>Septiembre</option>
+                <option>Octubre</option>
+                <option>Noviembre</option>
+                <option>Diciembre</option>
+              </select>
+            </div>
+          </div>
+
+
+          <!-- FUENTE -->
+          <div class="row">
+            <div class="field">
+              <label>Fuente de prospección</label>
+              <select id="fuente">
+                <option value="">Seleccione</option>
+                <option>Cross Selling - Cliente Amerispan</option>
+                <option>Cross Selling - Cliente Afiliado</option>
+                <option>Cross Selling - Cliente Propio</option>
+                <option>Referido - Compartido Afiliado</option>
+                <option>Referido - Cliente Amerispan</option>
+                <option>Referido - Cliente Inactivo</option>
+                <option>Referido Cliente Propio</option>
+                <option>Cliente Nuevo - Call Center Amerispan</option>
+                <option>Cliente Nuevo - Redes Sociales & Bases Asignadas</option>
+                <option>Base NCCI</option>
+                <option>Cliente Nuevo - Inactivo</option>
+              </select>
+            </div>
+
+            <div class="row" id="extraReferidoCompartido" style="display:none;">
+              <div class="field">
+                <label>Referido</label>
+                <select id="referidos">
+                  <option value="">Seleccione</option>
+                  <option>Sheila Alfaro</option>
+                  <option>Otro</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- EXTRA RED SOCIAL -->
+          <div class="row" id="extraRedSocial" style="display:none;">
+            <div class="field">
+              <label>Red social</label>
+              <select id="redSocial">
+                <option value="">Seleccione</option>
+                <option>Facebook</option>
+                <option>Instagram</option>
+                <option>Correo</option>
+                <option>WhatsApp</option>
+                <option>Otra</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- EXTRA REFERIDO -->
+          <div class="row" id="extraReferido" style="display:none;">
+            <div class="field">
+              <label>Nombre del referido</label>
+              <input id="nombreReferido">
+            </div>
+            <div class="field">
+              <label>Teléfono del referido</label>
+              <input id="telefonoReferido">
+            </div>
+            <div class="field">
+              <label>Red social</label>
+              <select id="medioReferido">
+                <option value="">Seleccione</option>
+                <option>Llamada</option>
+                <option>Whatssapp</option>
+                <option>Correo</option>
+                <option>Chat</option>
+                <option>Otra</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- TIPO / CATEGORIA -->
+          <div class="row">
+            <div class="field">
+              <label>Tipo</label>
+              <select id="tipo">
+                <option value="">Seleccione</option>
+                <option value="clientes antiguos">Clientes Antiguos</option>
+                <option value="clientes nuevos">Clientes Nuevos</option>
+                <option value="renovaciones">Renovaciones</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Categoría</label>
+              <select id="categoria" disabled></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field" id="extraSubcategoria" style="display:none;">
+              <label>Subcategoría</label>
+              <select id="subcategoria">
+                <option value="">Seleccione</option>
+                <option>WC</option>
+                <option>GL</option>
+                <option>BOP</option>
+                <option>Umbrella</option>
+                <option>Auto Comercial</option>
+              </select>
+            </div>
+            <div class="field" id="extraDetalleCategoria" style="display:none;">
+              <label>Compañia</label>
+              <select id="detalleCategoria"></select>
+            </div>
+          </div>
+          <div class="row">
+            <div id="extraEspecificaciones" class="field full" style="display:none;">
+              <label>Especificaciones</label>
+              <select id="especificaciones" multiple disabled></select>
+
+              <small>Ctrl (o Cmd) + click para seleccionar múltiples opciones</small>
+              <small>Ctrl (o Cmd) + click para quitar selección</small>
+            </div>
           </div>
         </div>
-
-        <!-- EXTRA REFERIDO -->
-        <div class="row" id="extraReferido" style="display:none;">
-          <div class="field">
-            <label>Nombre del referido</label>
-            <input id="nombreReferido">
-          </div>
-          <div class="field">
-            <label>Teléfono del referido</label>
-            <input id="telefonoReferido">
-          </div>
-          <div class="field">
-            <label>Red social</label>
-            <select id="medioReferido">
-              <option value="">Seleccione</option>
-              <option>Llamada</option>
-              <option>Whatssapp</option>
-              <option>Correo</option>
-              <option>Chat</option>
-              <option>Otra</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- TIPO / CATEGORIA -->
-        <div class="row">
-          <div class="field">
-            <label>Tipo</label>
-            <select id="tipo">
-              <option value="">Seleccione</option>
-              <option value="clientes antiguos">Clientes Antiguos</option>
-              <option value="clientes nuevos">Clientes Nuevos</option>
-              <option value="renovaciones">Renovaciones</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Categoría</label>
-            <select id="categoria" disabled></select>
-          </div>
-          <div class="field" id="extraSubcategoria" style="display:none;">
-            <label>Subcategoría</label>
-            <select id="subcategoria">
-              <option value="">Seleccione</option>
-              <option>WC</option>
-              <option>GL</option>
-              <option>BOP</option>
-              <option>Umbrella</option>
-              <option>Auto Comercial</option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div id="extraEspecificaciones" class="field full" style="display:none;">
-            <label>Especificaciones</label>
-            <select id="especificaciones" multiple disabled></select>
-
-            <small>Ctrl (o Cmd) + click para seleccionar múltiples opciones</small>
-            <small>Ctrl (o Cmd) + click para quitar selección</small>
-          </div>
-        </div>
-
         <button type="submit" id="btnEnviar">Guardar venta</button>
 
       </form>
