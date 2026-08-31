@@ -238,6 +238,7 @@ async function enviar() {
     data.append("fee", fee.value);
     data.append("tipo", normalizarTexto(tipo.value));
     data.append("categoria", normalizarTexto(categoria.value));
+    data.append("compania", normalizarTexto(detalleCategoria.value));
     data.append("fuente", normalizarTexto(fuente.value));
     data.append("mes_G", normalizarTexto(mesGestion.value));
     data.append("mes_V", normalizarTexto(mesVenta.value));
