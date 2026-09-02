@@ -18,20 +18,23 @@ function json(data, status = 200) {
 }
 
 /**
- * Genera un identificador compuesto exclusivamente por números.
+ * Genera un identificador formado EXCLUSIVAMENTE por números y guiones.
  *
- * Esto es intencional:
- * la URL del Blob no debe contener caracteres sensibles a
- * mayúsculas/minúsculas en el pathname.
+ * Ejemplo:
+ * 1788366708123-428593761-938472615
  */
 function generarIdNumerico() {
-  const randomValues = new Uint32Array(2);
-  crypto.getRandomValues(randomValues);
+  const timestamp = Date.now();
 
-  const random1 = String(randomValues[0]).padStart(10, '0');
-  const random2 = String(randomValues[1]).padStart(10, '0');
+  const random1 = String(
+    Math.floor(Math.random() * 1000000000)
+  ).padStart(9, '0');
 
-  return `${Date.now()}-${random1}${random2}`;
+  const random2 = String(
+    Math.floor(Math.random() * 1000000000)
+  ).padStart(9, '0');
+
+  return `${timestamp}-${random1}-${random2}`;
 }
 
 export default {
@@ -39,7 +42,7 @@ export default {
 
     /*
      * ============================================================
-     * VALIDAR MÉTODO
+     * SOLO POST
      * ============================================================
      */
     if (request.method !== 'POST') {
@@ -53,7 +56,7 @@ export default {
 
     /*
      * ============================================================
-     * VALIDAR CONFIGURACIÓN DE VERCEL BLOB
+     * VALIDAR VERCEL BLOB
      * ============================================================
      */
     const hasReadWriteToken = Boolean(
@@ -66,8 +69,8 @@ export default {
     );
 
     if (!hasReadWriteToken && !hasOidc) {
+
       console.error(
-        'Vercel Blob no está configurado. ' +
         'No existe BLOB_READ_WRITE_TOKEN ni configuración OIDC.'
       );
 
@@ -82,7 +85,7 @@ export default {
 
     /*
      * ============================================================
-     * VALIDAR QUE EXISTA EL ARCHIVO
+     * VALIDAR BODY
      * ============================================================
      */
     if (!request.body) {
@@ -96,7 +99,7 @@ export default {
 
     /*
      * ============================================================
-     * VALIDAR CONTENT-TYPE
+     * CONTENT TYPE
      * ============================================================
      */
     const contentType = (
@@ -107,10 +110,16 @@ export default {
       .toLowerCase();
 
     if (!ALLOWED_CONTENT_TYPES.has(contentType)) {
+
+      console.error(
+        'Content-Type rechazado:',
+        contentType
+      );
+
       return json(
         {
           error:
-            'La evidencia debe ser una imagen JPG, PNG o WEBP.',
+            'La evidencia debe ser JPG, PNG o WEBP.',
         },
         415
       );
@@ -121,9 +130,13 @@ export default {
      * VALIDAR TAMAÑO
      * ============================================================
      */
-    const contentLength = Number(
-      request.headers.get('content-length') || 0
-    );
+    const contentLengthHeader =
+      request.headers.get('content-length');
+
+    const contentLength =
+      contentLengthHeader
+        ? Number(contentLengthHeader)
+        : 0;
 
     if (
       Number.isFinite(contentLength) &&
@@ -132,7 +145,7 @@ export default {
       return json(
         {
           error:
-            'La evidencia supera el límite máximo permitido de 4 MB.',
+            'La evidencia supera el límite de 4 MB.',
         },
         413
       );
@@ -140,39 +153,31 @@ export default {
 
     /*
      * ============================================================
-     * GENERAR PATHNAME SEGURO
+     * GENERAR PATHNAME
      * ============================================================
      *
      * MUY IMPORTANTE:
      *
-     * NO usamos:
+     * El pathname tendrá SOLAMENTE:
      *
-     *   evidencias/
-     *   cross-selling-cliente-propio/
-     *   virna/
-     *   eric/
-     *   cliente/
-     *   .jpg
+     * - números
+     * - /
+     * - -
      *
-     * porque cualquier conversión a mayúsculas/minúsculas
-     * realizada posteriormente podría romper la URL.
+     * No habrá:
      *
-     * El pathname generado contiene SOLAMENTE:
+     * evidencias
+     * virna
+     * eric
+     * .jpg
+     * letras aleatorias de Vercel
      *
-     *   números
-     *   /
-     *   -
+     * De esta manera Google puede hacer:
      *
-     * Ejemplo:
+     * UPPERCASE
+     * lowercase
      *
-     *   20260902/1788366708123-12345678909876543210
-     *
-     * Por tanto:
-     *
-     *   toUpperCase()
-     *   toLowerCase()
-     *
-     * no pueden modificarlo.
+     * y el pathname NO cambia.
      * ============================================================
      */
 
@@ -194,10 +199,15 @@ export default {
 
     const identificador = generarIdNumerico();
 
-    const pathname = [
-      fecha,
-      identificador,
-    ].join('/');
+    const pathname =
+      `${fecha}/${identificador}`;
+
+    console.log('==============================');
+    console.log('SUBIENDO EVIDENCIA');
+    console.log('pathname:', pathname);
+    console.log('contentType:', contentType);
+    console.log('contentLength:', contentLength);
+    console.log('==============================');
 
     /*
      * ============================================================
@@ -206,15 +216,6 @@ export default {
      */
     try {
 
-      console.log(
-        'Subiendo evidencia a Vercel Blob:',
-        {
-          pathname,
-          contentType,
-          contentLength,
-        }
-      );
-
       const blob = await put(
         pathname,
         request.body,
@@ -222,56 +223,81 @@ export default {
           access: 'public',
 
           /*
-           * MUY IMPORTANTE.
+           * FUNDAMENTAL.
            *
-           * Vercel por defecto puede agregar un sufijo aleatorio
-           * alfanumérico que contiene mayúsculas y minúsculas.
+           * Evita que Vercel agregue algo como:
            *
-           * Lo desactivamos porque queremos que el pathname sea
-           * completamente inmune a conversiones de casing.
+           * N08KzLTzjacHU5eB4wqSruOsRJZsvJ
+           *
+           * porque ese sufijo sí es sensible a mayúsculas.
            */
           addRandomSuffix: false,
 
           /*
-           * Aunque el pathname no tenga ".jpg", ".png", etc.,
-           * Vercel responderá con el MIME correcto.
-           *
-           * Ej:
-           * Content-Type: image/jpeg
+           * Como no usamos ".jpg", ".png", etc.
+           * enviamos explícitamente el MIME.
            */
           contentType,
         }
       );
 
       console.log(
-        'Evidencia almacenada correctamente:',
+        'BLOB GUARDADO CORRECTAMENTE'
+      );
+
+      console.log(
+        'URL:',
         blob.url
       );
 
+      console.log(
+        'PATHNAME:',
+        blob.pathname
+      );
+
       /*
-       * IMPORTANTE:
-       *
-       * El frontend debe enviar EXACTAMENTE blob.url
-       * a Google Apps Script.
+       * Esta URL es la que recibe script.js
+       * y posteriormente manda a Google.
        */
-      return json({
-        ok: true,
-        url: blob.url,
-        pathname: blob.pathname,
-        contentType,
-      });
+      return json(
+        {
+          ok: true,
+          url: blob.url,
+          pathname: blob.pathname,
+          contentType: blob.contentType || contentType,
+        },
+        200
+      );
 
     } catch (error) {
 
       console.error(
-        'Error subiendo evidencia a Vercel Blob:',
-        error
+        '================================'
+      );
+
+      console.error(
+        'ERROR SUBIENDO A VERCEL BLOB'
+      );
+
+      console.error(error);
+
+      console.error(
+        '================================'
       );
 
       return json(
         {
           error:
             'No se pudo almacenar la evidencia en Vercel Blob.',
+
+          /*
+           * Temporalmente te dejo el detalle
+           * para que si vuelve a fallar sepamos
+           * EXACTAMENTE qué está pasando.
+           */
+          detail:
+            error?.message ||
+            String(error),
         },
         500
       );
