@@ -197,3 +197,26 @@ button[type="submit"]:hover {
     flex-direction: column;
   }
 }
+/* =========================
+   EVIDENCIA CROSS SELLING
+========================= */
+.evidencia-field {
+  padding: 14px;
+  border: 1px dashed #b8b8b8;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.evidencia-field input[type="file"] {
+  background: #fff;
+  cursor: pointer;
+}
+
+.required-mark {
+  color: #c62828;
+}
+
+.evidencia-estado {
+  margin-top: 6px;
+  font-weight: 600;
+}
