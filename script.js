@@ -486,7 +486,7 @@ async function enviar() {
 
         btnEnviar.textContent = "GUARDANDO...";
 
-        await fetch("https://script.google.com/macros/s/AKfycbwkcK7fgPmP2eprMcdUBkXjkPDDFQ4aHkQlXRJSL4zMBkw05iivmot_dLUK930EBNIY/exec", {
+        await fetch("https://script.google.com/macros/s/AKfycbzGZjm68Yclvv8Jgkjdov_-sL4wnb50Zb2gC5HhNKPE7y9s4PAg17b6Fks8n7zGbVmV/exec", {
             method: "POST",
             mode: "no-cors",
             body: data
