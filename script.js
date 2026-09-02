@@ -30,6 +30,8 @@ const evidencia = document.getElementById("evidencia");
 const evidenciaEstado = document.getElementById("evidenciaEstado");
 
 const FUENTE_CROSS_SELLING_CLIENTE_PROPIO = "Cross Selling - Cliente Propio";
+const EVIDENCIA_UPLOAD_ENDPOINT = "/api/upload-evidencia-v2";
+const EVIDENCIA_UPLOAD_VERSION = "BLOB-NUMERICO-V2";
 const MAX_EVIDENCIA_UPLOAD_BYTES = 4 * 1024 * 1024;
 const TARGET_EVIDENCIA_BYTES = Math.floor(3.8 * 1024 * 1024);
 const TIPOS_EVIDENCIA_PERMITIDOS = ["image/jpeg", "image/png", "image/webp"];
@@ -340,7 +342,7 @@ async function subirEvidenciaBlob(file) {
     evidenciaEstado.textContent = "Subiendo evidencia...";
     btnEnviar.textContent = "SUBIENDO EVIDENCIA...";
 
-    const response = await fetch(`/api/upload-evidencia?${params.toString()}`, {
+    const response = await fetch(`${EVIDENCIA_UPLOAD_ENDPOINT}?${params.toString()}`, {
         method: "POST",
         headers: {
             "Content-Type": archivo.type
@@ -356,7 +358,17 @@ async function subirEvidenciaBlob(file) {
     }
 
     if (!response.ok || !result?.url) {
-        throw new Error(result?.error || "No se pudo subir la evidencia a Vercel Blob.");
+        throw new Error(
+            result?.detail ||
+            result?.error ||
+            `No se pudo subir la evidencia a Vercel Blob (HTTP ${response.status}).`
+        );
+    }
+
+    if (result.version !== EVIDENCIA_UPLOAD_VERSION) {
+        throw new Error(
+            `Endpoint de evidencia desactualizado. Esperado: ${EVIDENCIA_UPLOAD_VERSION}. Recibido: ${result.version || "sin versión"}.`
+        );
     }
 
     evidenciaEstado.textContent = "Evidencia cargada ✔";
