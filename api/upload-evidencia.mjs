@@ -21,7 +21,7 @@ function json(data, status = 200) {
  * Genera un identificador formado EXCLUSIVAMENTE por números y guiones.
  *
  * Ejemplo:
- * 1788366708123-428593761-938472615
+ * 1788366708123-428593761-9384726151
  */
 function generarIdNumerico() {
   const timestamp = Date.now();
